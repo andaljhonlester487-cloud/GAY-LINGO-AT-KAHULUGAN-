@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAY LINGO AT KAHULUGAN</title>
+
+<!-- Link sa PWA manifest -->
+<link rel="manifest" href="manifest.json">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    border: 5px solid orangered; /* Red-orange border */
+    padding: 10px;
+    border-radius: 15px;
+  }
+  h2 { text-align: center; }
+  #searchBar {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 2px solid orangered;
+  }
+  #wordList {
+    list-style: none;
+    padding: 0;
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 2px solid orangered;
+    border-radius: 10px;
+  }
+  #wordList li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  #wordList li:hover { background-color: #ffe6d1; }
+</style>
+</head>
+<body>
+
+<h2> GAY LINGO AT KAHULUGAN </h2>
+<input type="text" id="searchBar" placeholder="Search a word...">
+<ul id="wordList"></ul>
+
+<script>
+
+    
+const dictionary = [
+  { word: "Ace Sanchez", meaning: "Isang top" },
+  { word: "Agi", meaning: "Bakla o bading" },
+  { word: "Aglipay", meaning: "Pangit na babae" },
+  { word: "Ahas", meaning: "Traidor" },
+  { word: "Aidas", meaning: "Eyds (tulad ng 'extra yards', minsan ginagamit para sabihin na sobra o labis)" },
+  { word: "Aketch", meaning: "Ako" },
+  { word: "Alert", meaning: "Lakad" },
+  { word: "Ambisyo (o)sa", meaning: "Pangarap" },
+  { word: "Amador", meaning: "Ama" },
+  { word: "Anda", meaning: "Pera" },
+  { word: "Andalucia", meaning: "Datung (money)" },
+  { word: "Anarré", meaning: "Pinagaltan / pinagsabihan (reprimanded)" },
+  { word: "Anita Linda/Aida", meaning: "AIDS" },
+  { word: "Anetch", meaning: "Ano" },
+  { word: "Anaconda", meaning: "Anak" },
+  { word: "Anju", meaning: "Datung (money)" },
+  { word: "Anjo Ylaña", meaning: "Datung (money)" },
+  { word: "Anek", meaning: "Ano (what)" },
+  { word: "Anekivum", meaning: "Ano" },
+  { word: "Ate Vangie", meaning: "Gamot pampatulog (Ativan)" },
+  { word: "Ate Vi", meaning: "Atrebida" },
+  { word: "Badaf", meaning: "Bading" },
+  { word: "Backstreet Boys", meaning: "Mga cute na lalaki sa likuran" },
+  { word: "Babaylan", meaning: "Bakla o bading" },
+  { word: "Baboosh", meaning: "Bye" },
+  { word: "Baboy", meaning: "(Not listed in original but correcting if typo; original has 'Bubog' as babae)" },
+  { word: "Baklah / Baklush", meaning: "Used instead of one’s name, may refer to any gender" },
+  { word: "Bakreg", meaning: "Baklang ugly → bata pa lang alam na na bading sya" },
+  { word: "Balaj", meaning: "Balahura (shameless)" },
+  { word: "Baler", meaning: "Bahay" },
+  { word: "Banaba", meaning: "Asawang lalaki" },
+  { word: "Banta", meaning: "(Not listed)" },
+  { word: "Baratilya", meaning: "Mura" },
+  { word: "Bayawak", meaning: "Lalaking nagkaka-gusto sa babae at lalaki" },
+  { word: "Bayombong, Nueva Viscaya", meaning: "Masturbate" },
+  { word: "Bavarian", meaning: "Bye bye" },
+  { word: "Badyang", meaning: "Badyet" },
+  { word: "Baiel", meaning: "Little bakla" },
+  { word: "Bahamas", meaning: "Baha" },
+  { word: "Beki", meaning: "Bading, bakla" },
+  { word: "Bekimon", meaning: "Ka-badingan" },
+  { word: "Beke or Beks", meaning: "Bading" },
+  { word: "Be bang/Mayta", meaning: "Katulong" },
+  { word: "Bi-leng wa estop ada", meaning: "Lalaking nagkaka-gusto sa babae at lalaki" },
+  { word: "Bibang", meaning: "Lasing" },
+  { word: "Biglets", meaning: "Nag-aaliw" },
+  { word: "Bitter Ocampo", meaning: "Bitter; malungkot (sad) / nagngingitngit (fuming mad)" },
+  { word: "Blu Sang Itim", meaning: "Mga bakla na gumanda sa parlor" },
+  { word: "Bonel Balingit", meaning: "Sinaksak" },
+  { word: "Borbz", meaning: "Lesbian" },
+  { word: "Boyband", meaning: "Chubby boy" },
+  { word: "Boylet", meaning: "Papa" },
+  { word: "Boxi", meaning: "Taxi" },
+  { word: "Booking", meaning: "Date" },
+  { word: "Buad-ad", meaning: "Bumibida" },
+  { word: "Bubog", meaning: "Babae" },
+  { word: "Bugaw", meaning: "Binubugawan" },
+  { word: "Bugris", meaning: "Sinampal" },
+{ word: "Bungangera", meaning: "Maka-bunganga" },
+  { word: "Buy-landra", meaning: "Bumili" },
+  { word: "Buy-sola", meaning: "Bumili" },
+  { word: "Binitis", meaning: "Busilak ang loob (mabait ang puso)" },
+  { word: "BY", meaning: "Gwapo" },
+  { word: "Byorkit", meaning: "Bakit" },
+  { word: "Cal Carie", meaning: "'Can you?'" },
+  { word: "Calatrava", meaning: "Madumi" },
+  { word: "Cater", meaning: "Nakita" },
+  { word: "Cathy Santillan/Kate Gomez/Cathy Mora/Cathy Dennis", meaning: "Makati, malibog" },
+  { word: "Chabelita", meaning: "Mataba" },
+  { word: "Chaka", meaning: "Hindi maganda, pangit" },
+  { word: "Chanda Romero", meaning: "Tiyan (tummy)" },
+  { word: "Charito", meaning: "Biro lang" },
+  { word: "Chajler", meaning: "Pangit" },
+  { word: "Chenie Lin", meaning: "Multi purpose word with many meanings depending on context eg. 'Shofatid, ashumera and ex mo andisplok megatrophy jowa mo raw siya Chenie Lin'" },
+  { word: "Chocolate", meaning: "Pangit" },
+  { word: "Chokehey", meaning: "Walang pakialam" },
+  { word: "Chiquito", meaning: "Maliit" },
+  { word: "Chiqui Pineda", meaning: "Pangit" },
+  { word: "Chin chin tabiru", meaning: "Blowjob; Note: Japanese origin - chinchin means eat, taberu means bird or penis" },
+  { word: "Churchill", meaning: "Sosyal" },
+  { word: "Corazon Aquino", meaning: "Tama" },
+  { word: "Crayola", meaning: "Umiyak" },
+  { word: "Crayola Khomeni", meaning: "Iyak" },
+  { word: "Cynthia", meaning: "'Who is he/she?'" },
+  { word: "Dakila", meaning: "Malaki" },
+  { word: "Dakota Harizon Plaza", meaning: "Well hung" },
+  { word: "Dakota Harrison Pilaza", meaning: "Malaking ari" },
+  { word: "Dalawidaw", meaning: "Dalawa" },
+  { word: "Dama", meaning: "Shabu high ('Ding, ang bato!')" },
+  { word: "Damatands", meaning: "Old" },
+  { word: "Da Plaks", meaning: "Sapatos" },
+  { word: "Dats", meaning: "Pera" },
+  { word: "Debbie Gibson", meaning: "Bigyan" },
+  { word: "Deley", meaning: "Deto" },
+  { word: "Duty Free", meaning: "Maliit na halaga ng pera" },
+  { word: "Eklavu", meaning: "Kung ano ano" },
+  { word: "Ella Mae/Ella Fitzgerald/Ella Luansing", meaning: "Nalilibog" },
+  { word: "Emag / Na-eerna", meaning: "Na-ccr/ poop/poop" },
+  { word: "Enter the Dragon / Entourage", meaning: "Pasok (to enter) / come in" },
+  { word: "Estrogenic", meaning: "Big boobs" },
+  { word: "Eva Kalaw", meaning: "Evak (tumakas)" },
+  { word: "Fatale", meaning: "Sobra (excessive) / to the max" },
+  { word: "Felix Bakat", meaning: "Bakat ang ari" },
+  { word: "Feel / Fillet o’ Fish", meaning: "Type / gusto / natipuhan (like)" },
+  { word: "Fly", meaning: "Alis (leave)" },
+  { word: "Forever", meaning: "Palagi (always) / matagal / mabagal (slow)" },
+  { word: "Freestyle", meaning: "Slow makagets (to understand) / slow" },
+  { word: "Fargenic", meaning: "Gwapo/maganda kapag malayo" },
+  { word: "Gardenia, Jaguar", meaning: "Security guard" },
+  { word: "Getlaku", meaning: "Kukunin" },
+  { word: "Girlie Rodis", meaning: "Babae" },
+  { word: "Givenchy", meaning: "Bigay (to give); Pahingi" },
+  { word: "Gitey", meaning: "Dito" },
+  { word: "Gora", meaning: "Go; Go!" },
+  { word: "Golakchek", meaning: "Go or tara na" },
+  { word: "Kipay", meaning: "Pepe" },
+  { word: "Halls", meaning: "Tsupa" },
+  { word: "Harvest", meaning: "Buko juice, basta un na un" },
+  { word: "Hipon, Hiponesa", meaning: "Guy with a good body but an ugly face" },
+  { word: "Imbey / Im", meaning: "Imbyerna (irritation)" },
+  { word: "Indiana Jones", meaning: "Hindi sumipot" },
+  { word: "Jan Jalani/Pocahontas", meaning: "Bakla na laging late" },
+  { word: "Janno Gibbs", meaning: "Bigay (to give)" },
+  { word: "Joana", meaning: "Flat chested" },
+  { word: "Joana Paras", meaning: "Asawa" },
+  { word: "Jennilyn (Mercado)", meaning: "Mura, pangit" },
+  { word: "Jowa", meaning: "Karelasyon / BF or GF" },
+  { word: "Jowaers", meaning: "BF/GF" },
+  { word: "Jowabelles / Jowabella", meaning: "Karerasyon / BF or GF" },
+  { word: "Jowaik", meaning: "Adik sa jowa" },
+  { word: "Juliet", meaning: "Small breasts" },
+  { word: "Julie Andrew / Jolina Magdangal", meaning: "Mahuli (caught in the act)" },
+  { word: "Julanis Morisette/Reyna Elena", meaning: "Umuulan" },
+  { word: "Jun jun", meaning: "Teenager (or mga cute na lalaki na baby face)" },
+  { word: "Junakis", meaning: "Anak" },
+  { word: "Jonbag", meaning: "Bugbog" },
+  { word: "Jukaw", meaning: "Ikaw" },
+  { word: "Jutay", meaning: "Maliit ang nota" },
+  { word: "Jutanda", meaning: "Old" },
+  { word: "Zsa Zsa Padilla", meaning: "Okay fine! (o zsa, zsa!); O siya, sige!" }
+];
+
+const wordList = document.getElementById("wordList");
+const searchBar = document.getElementById("searchBar");
+
+function displayList(items) {
+  wordList.innerHTML = "";
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.word;
+    li.addEventListener("click", () => alert(item.meaning));
+    wordList.appendChild(li);
+  });
+}
+
+// Initial display
+displayList(dictionary);
+
+// Filtersearch
+searchBar.addEventListener("input", () => {
+  const filter = searchBar.value.toLowerCase();
+  const filtered = dictionary.filter(item => item.word.toLowerCase().includes(filter));
+  displayList(filtered);
+});
+
+// Register service worker para maging PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('Service Worker Registered'))
+    .catch(err => console.log('Service Worker registration failed:', err));
+}
+</script>
+
+</body>
+</html><html>
+
+</html><html>
+
+</html><html>
+
+</html><html>
+
+</html>
